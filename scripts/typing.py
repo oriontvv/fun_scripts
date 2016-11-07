@@ -1,3 +1,3 @@
 
-class Integer():
+class Integer(object):
 	pass

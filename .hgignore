@@ -3,6 +3,7 @@ syntax: glob
 *.egg-info
 *.log
 *.pyc
+.cache
 .idea
 __pycache__
 build
