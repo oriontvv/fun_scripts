@@ -11,6 +11,6 @@ def point():
 	return Point()
 
 
-def test_simple(point):
-	assert point.x == 0
+# def test_simple(point):
+	# assert point.x == 0
 	
