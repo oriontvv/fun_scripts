@@ -4,13 +4,13 @@ from scripts.typing import Integer
 
 @pytest.fixture()
 def point():
-	class Point:
-		x = Integer('x')
-		y = Integer('y')
+    class Point:
+        x = Integer('x')
+        y = Integer('y')
 
-	return Point()
+    return Point()
 
 
 # def test_simple(point):
-	# assert point.x == 0
-	
+    # assert point.x == 0
+    
