@@ -1,0 +1,11 @@
+syntax: glob
+*.db
+*.egg-info
+*.log
+*.pyc
+.idea
+__pycache__
+build
+dist
+env
+venv
