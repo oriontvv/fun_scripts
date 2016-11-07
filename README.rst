@@ -2,11 +2,12 @@ Fun scripts
 ===========
 
 There are some interesting python scripts in this repo.
-python3 required
+(python3 required)
 
-.. code: bash
+.. code:: bash
     python3.5 -m env venv
     source venv/bin/activate
+    pip install -r requirements.txt
     make tests
     
 

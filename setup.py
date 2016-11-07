@@ -17,6 +17,8 @@ setup(
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Topic :: Utilities",
-        "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: Apache2 License",
+        "Programming Language :: Python :: 3",
     ],
+
 )
