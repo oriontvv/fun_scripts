@@ -1,13 +1,17 @@
 import csv
 from collections import namedtuple
 
-# todo add types
-def read_rows(csv_fname):
+# use pandas.read_csv() for huge csv files
+
+def read_rows(csv_fname, types=()):
     with open(csv_fname) as f:
         f_csv = csv.reader(f)
         header = next(f_csv)
+        assert len(types) == len(header), "Bad header"
+
         Row = namedtuple('Row', header)
-        for row in f_csv:
+        for line in f_csv:
+            row = (convert(value) for convert, value in zip(types, line))
             yield Row(*row)
 
 
