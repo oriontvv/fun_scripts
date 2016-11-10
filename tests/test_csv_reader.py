@@ -1,4 +1,4 @@
-from scripts.csv_reader import read_rows
+from scripts.csv_utils import read_rows
 
 def test_csv_reader(tmpdir):
 	p = tmpdir.mkdir('temp').join('file.csv')
