@@ -28,6 +28,7 @@ def serialize_instance(obj):
     d.update(vars(obj))
     return d
 
+
 # Dictionary mapping names to known classes
 classes = {
     'Point': Point
