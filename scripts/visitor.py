@@ -1,5 +1,6 @@
 from collections import namedtuple
-
+import types
+from abc import ABCMeta, abstractmethod
 
 class Node:
     pass
@@ -36,7 +37,19 @@ class Number(Node):
         self.value = value
 
 
-class NodeVisitor:
+class AbstractVisitor(metaclass=ABCMeta):
+    
+    @abstractmethod
+    def visit(self, node):
+        return NotImplemented
+
+    @abstractmethod
+    def generic_visit(self, node):
+        return NotImplemented
+
+
+class NodeVisitorRecursive(AbstractVisitor):
+
     def visit(self, node):
         methodname = 'visit_' + type(node).__name__
         method = getattr(self, methodname, None)
@@ -49,8 +62,42 @@ class NodeVisitor:
         raise RuntimeError("Method {} not found".format(methodname))
 
 
+class NodeVisitorYield(AbstractVisitor):
 
-class Evaluator(NodeVisitor):
+    def visit(self, node):
+        stack = [node]
+        last_result = None
+
+        while stack:
+            try:
+                last = stack[-1]
+                if isinstance(last, types.GeneratorType):
+                    stack.append(last.send(last_result))
+                    last_result = None
+                elif isinstance(last, Node):
+                    stack.append(self._visit(stack.pop()))
+                else:
+                    last_result = stack.pop()
+            except StopIteration as e:
+                stack.pop()
+
+        return last_result
+
+    def _visit(self, node):
+        methodname = 'visit_' + type(node).__name__
+        method = getattr(self, methodname, None)
+        if method is None:
+            method = self.generic_visit(node)
+        return method(node)
+    
+    def generic_visit(self, node):
+        methodname = 'visit_' + type(node).__name__
+        raise RuntimeError('Method {} not found'.format(methodname))
+
+
+
+class EvaluatorMixin:
+
     def visit_Number(self, node):
         return node.value
 
@@ -70,10 +117,19 @@ class Evaluator(NodeVisitor):
         return self.visit(node.left) / self.visit(node.right)
 
 
+class EvaluatorRecursive(NodeVisitorRecursive, EvaluatorMixin):
+    pass
+
+
+class EvaluatorYield(NodeVisitorYield, EvaluatorMixin):
+    pass
+
+
 Instruction = namedtuple('Instruction', ['name', 'value'])
 
 
-class StackCode(NodeVisitor):
+class StackCodeGeneratorMixin:
+
     def generate_code(self, node):
         self.instructions = []
         self.visit(node)
@@ -105,3 +161,10 @@ class StackCode(NodeVisitor):
 
     def visit_Div(self, node):
         return self.visit_binary(node, 'DIV')
+
+
+class StackCodeGeneratorRecursive(NodeVisitorRecursive, StackCodeGeneratorMixin):
+    pass
+
+class StackCodeGeneratorYield(NodeVisitorYield, StackCodeGeneratorMixin):
+    pass
