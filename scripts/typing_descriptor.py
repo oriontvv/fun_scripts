@@ -2,7 +2,7 @@
 class Integer:
     """
     Only for class variables!
-    If a descriptor is accessed as a class variable, 
+    If a descriptor is accessed as a class variable,
     the instance argument is set to None.
     """
 

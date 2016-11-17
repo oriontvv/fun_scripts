@@ -1,6 +1,6 @@
 from collections import namedtuple
 import types
-from abc import ABCMeta, abstractmethod
+
 
 class Node:
     pass
@@ -20,35 +20,40 @@ class BinaryOperator(Node):
 class Add(BinaryOperator):
     pass
 
+
 class Sub(BinaryOperator):
     pass
+
 
 class Mul(BinaryOperator):
     pass
 
+
 class Div(BinaryOperator):
     pass
 
+
 class Negate(UnaryOperator):
     pass
+
 
 class Number(Node):
     def __init__(self, value):
         self.value = value
 
 
-class AbstractVisitor(metaclass=ABCMeta):
-    
-    @abstractmethod
-    def visit(self, node):
-        return NotImplemented
+# class AbstractVisitor(metaclass=ABCMeta):
 
-    @abstractmethod
-    def generic_visit(self, node):
-        return NotImplemented
+#     @abstractmethod
+#     def visit(self, node):
+#         return NotImplemented
+
+#     @abstractmethod
+#     def generic_visit(self, node):
+#         return NotImplemented
 
 
-class NodeVisitorRecursive(AbstractVisitor):
+class NodeVisitorRecursive():
 
     def visit(self, node):
         methodname = 'visit_' + type(node).__name__
@@ -62,7 +67,7 @@ class NodeVisitorRecursive(AbstractVisitor):
         raise RuntimeError("Method {} not found".format(methodname))
 
 
-class NodeVisitorYield(AbstractVisitor):
+class NodeVisitorYield():
 
     def visit(self, node):
         stack = [node]
@@ -78,7 +83,7 @@ class NodeVisitorYield(AbstractVisitor):
                     stack.append(self._visit(stack.pop()))
                 else:
                     last_result = stack.pop()
-            except StopIteration as e:
+            except StopIteration:
                 stack.pop()
 
         return last_result
@@ -89,11 +94,10 @@ class NodeVisitorYield(AbstractVisitor):
         if method is None:
             method = self.generic_visit(node)
         return method(node)
-    
+
     def generic_visit(self, node):
         methodname = 'visit_' + type(node).__name__
         raise RuntimeError('Method {} not found'.format(methodname))
-
 
 
 class EvaluatorMixin:
@@ -138,7 +142,7 @@ class StackCodeGeneratorMixin:
     def visit_unary(self, node):
         self.visit(node.operand)
         self.instructions.append(Instruction('NEG', None))
-    
+
     def visit_binary(self, node, instruction_name):
         self.visit(node.left)
         self.visit(node.right)
@@ -163,8 +167,11 @@ class StackCodeGeneratorMixin:
         return self.visit_binary(node, 'DIV')
 
 
-class StackCodeGeneratorRecursive(NodeVisitorRecursive, StackCodeGeneratorMixin):
+class StackCodeGeneratorRecursive(NodeVisitorRecursive,
+                                  StackCodeGeneratorMixin):
     pass
 
-class StackCodeGeneratorYield(NodeVisitorYield, StackCodeGeneratorMixin):
+
+class StackCodeGeneratorYield(NodeVisitorYield,
+                              StackCodeGeneratorMixin):
     pass
