@@ -97,6 +97,7 @@ def get_track_full_name(t_data):
 
 def download_track(t_url, t_name):
     t_path = os.path.join(MUSIC_FOLDER or "", t_name)
+    t_path = t_path.replace("'", "")
     print("Downloading {0}".format(t_name.encode('ascii', 'replace')))
     urllib.urlretrieve(t_url, t_path)
     convert_encoding(t_path)
