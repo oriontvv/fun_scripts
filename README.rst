@@ -9,7 +9,7 @@ Python3 required:
 
 .. code:: bash
 
-    $ python3.5 -m env venv
+    $ python3.5 -m venv venv
     $ source venv/bin/activate
     $ pip install -r requirements.txt
     $ make tests
