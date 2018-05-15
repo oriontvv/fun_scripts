@@ -1,4 +1,3 @@
-
 # by bormand
 def spiral(x, y, n):
     if x >= y:
@@ -8,11 +7,14 @@ def spiral(x, y, n):
     if y > n-x-1:
         return y * (4*n - 4*y - 3) + 2*n - x - 1
     return x * (4*n - 4*x - 7) + 4*n - y - 3
- 
+
+
 def print_spiral(n):
-    print("\n".join("".join("{0:4d}".format(spiral(x, y, n)) for x in range(n)) for y in range(n)))
+    print("\n".join("".join("{0:4d}".format(spiral(x, y, n)) 
+                            for x in range(n)) for y in range(n)))
     print()
- 
+
+
 print_spiral(3)
 print_spiral(4)
 print_spiral(5)
