@@ -10,7 +10,7 @@ def spiral(x, y, n):
 
 
 def print_spiral(n):
-    print("\n".join("".join("{0:4d}".format(spiral(x, y, n)) 
+    print("\n".join("".join("{0:4d}".format(spiral(x, y, n))
                             for x in range(n)) for y in range(n)))
     print()
 
