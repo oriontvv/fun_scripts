@@ -1,6 +1,8 @@
+from itertools import chain, islice
+
 def batched(iterable, size):
     """
-    Split batches for given iterablea
+    Split batches for given iterable
     for batch in batched(iterator, size):
         for item in batch:
             print(item)
