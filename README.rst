@@ -17,6 +17,6 @@ Python3 required:
 
 PS: Big thanks to David Beazley and Brian K. Jones. Python Cookbook is awesome.
 
-.. |Build Status| image:: https://github.com/oriontvv/fun_scripts/workflows/Python%20package/badge.svg
+.. |Build Status| image:: https://github.com/oriontvv/fun_scripts/actions/workflows/python-package.yml/badge.svg
     :target: https://github.com/oriontvv/fun_scripts/actions
     :alt: Build Status
